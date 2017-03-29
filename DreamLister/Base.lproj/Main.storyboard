@@ -39,7 +39,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ItemCell" rowHeight="150" id="BLc-6E-CDC" customClass="ItemCell" customModule="DreamLister" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ItemCell" rowHeight="150" id="BLc-6E-CDC" customClass="ItemCell" customModule="DreamLister" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="343" height="150"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BLc-6E-CDC" id="F0h-ha-nJP">
@@ -161,7 +161,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePick" translatesAutoresizingMaskIntoConstraints="NO" id="lEn-nR-bbT">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jDR-Pd-3OO">
+                                <rect key="frame" x="16" y="72" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="65s-od-a3w"/>
+                                    <constraint firstAttribute="height" constant="100" id="dtE-is-SMY"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="imagePickerAction:" destination="qwG-6M-lRN" eventType="touchUpInside" id="0J4-D2-XQx"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePick" translatesAutoresizingMaskIntoConstraints="NO" id="lEn-nR-bbT">
                                 <rect key="frame" x="16" y="72" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="8CY-OS-zam"/>
@@ -188,13 +198,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jDR-Pd-3OO">
-                                <rect key="frame" x="16" y="72" width="100" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="65s-od-a3w"/>
-                                    <constraint firstAttribute="height" constant="100" id="dtE-is-SMY"/>
-                                </constraints>
-                            </button>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qdP-ai-ujE">
                                 <rect key="frame" x="0.0" y="386" width="375" height="216"/>
                                 <constraints>
@@ -220,6 +223,9 @@
                                 <state key="normal" title="Save Item">
                                     <color key="titleColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="saveItem:" destination="qwG-6M-lRN" eventType="touchUpInside" id="Of7-os-Cua"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jHg-yI-kvZ">
                                 <rect key="frame" x="145" y="348" width="84" height="30"/>
@@ -259,12 +265,16 @@
                     <navigationItem key="navigationItem" title="Add/Edit" id="ATf-RV-zC0">
                         <barButtonItem key="rightBarButtonItem" systemItem="trash" id="jtg-Sp-dQZ">
                             <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="deleteItem:" destination="qwG-6M-lRN" id="Ykf-8o-53G"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="detailsTextView" destination="MQk-Ie-SIb" id="r9e-sh-WaN"/>
                         <outlet property="priceTextView" destination="l3M-6K-AXg" id="3c5-Yh-Net"/>
                         <outlet property="storePicker" destination="qdP-ai-ujE" id="NGr-pk-Nh5"/>
+                        <outlet property="thumbnail" destination="lEn-nR-bbT" id="wi3-6c-Vt4"/>
                         <outlet property="titleTextView" destination="RwP-bf-JMI" id="Ena-MW-dO5"/>
                     </connections>
                 </viewController>
@@ -277,7 +287,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="j95-Id-wIg" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Mwx-SH-CP7">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mwx-SH-CP7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>

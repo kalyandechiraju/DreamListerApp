@@ -19,7 +19,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        generateTestData()
+        //generateTestData()
         attemptFetch()
     }
     
@@ -77,6 +77,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let dateSort = NSSortDescriptor(key: "created", ascending: false)
         fetchRequest.sortDescriptors = [dateSort]
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        controller.delegate = self
         self.fetchResultsController = controller
         do {
             try controller.performFetch()
@@ -121,6 +122,22 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 tableView.insertRows(at: [index], with: .fade)
             }
             break
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let items = fetchResultsController.fetchedObjects, items.count > 0 {
+            performSegue(withIdentifier: "itemDetailSegue", sender: items[indexPath.row])
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "itemDetailSegue" {
+            if let destination = segue.destination as? ItemDetailsViewController {
+                if let item = sender as? Item {
+                    destination.itemToLoad = item
+                }
+            }
         }
     }
 
